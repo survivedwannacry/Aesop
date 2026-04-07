@@ -1,6 +1,6 @@
 # Aesop
 
-**Threat modeling for AI agents, LLM apps, and RAG systems.**
+**Threat modelling for AI agents, LLM apps, and RAG systems.**
 
 A developer-first CLI that analyzes AI system architectures for security risks using deterministic rules and MITRE ATLAS-inspired technique mappings. No LLM required — just YAML in, threat model out.
 
