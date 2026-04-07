@@ -1,0 +1,92 @@
+system:
+  name: devops-automation-agent
+  type: tool-agent
+  description: DevOps assistant with broad tool access for infrastructure management
+
+exposure:
+  internet_facing: true
+  users:
+    - external_contractors
+    - internal_sre_team
+
+model:
+  provider: openai
+  model_family: gpt-4-class
+  hosted: external_api
+
+interfaces:
+  - type: slack_bot
+    auth: oauth
+  - type: web_dashboard
+    auth: api_key
+
+tools:
+  - name: github
+    permissions:
+      - read_repo
+      - write_repo
+      - create_pr
+    trust_boundary: external_service
+
+  - name: aws_console
+    permissions:
+      - read_resources
+      - execute_commands
+      - admin_access
+    trust_boundary: cloud_provider
+
+  - name: pagerduty
+    permissions:
+      - read_incidents
+      - write_incidents
+      - acknowledge
+    trust_boundary: external_service
+
+  - name: datadog
+    permissions:
+      - read_metrics
+      - read_logs
+    trust_boundary: external_service
+
+retrieval:
+  enabled: true
+  sources:
+    - name: runbooks
+      sensitivity: internal
+    - name: incident_history
+      sensitivity: confidential
+
+memory:
+  enabled: true
+  stores:
+    - type: conversation_memory
+      sensitivity: internal
+    - type: incident_context
+      sensitivity: confidential
+
+secrets:
+  - name: openai_api_key
+    scope: backend
+  - name: github_token
+    scope: tool_connector
+  - name: aws_credentials
+    scope: tool_connector
+  - name: pagerduty_token
+    scope: tool_connector
+  - name: datadog_api_key
+    scope: tool_connector
+
+data:
+  sensitivity:
+    - internal
+    - confidential
+
+trust_boundaries:
+  - slack
+  - web_browser
+  - backend
+  - external_llm_provider
+  - github_service
+  - aws_cloud
+  - pagerduty_service
+  - datadog_service

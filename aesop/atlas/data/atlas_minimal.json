@@ -1,0 +1,248 @@
+{
+  "version": "0.2.0",
+  "description": "Curated subset of MITRE ATLAS techniques for Aesop",
+  "source": "Inspired by MITRE ATLAS (https://atlas.mitre.org)",
+  "techniques": [
+    {
+      "tactic_id": "AML.TA0001",
+      "tactic_name": "Reconnaissance",
+      "technique_id": "AML.T0000",
+      "technique_name": "Public-Facing Application Discovery",
+      "description": "Adversary discovers and maps publicly exposed AI application interfaces.",
+      "mitigations": [
+        "Minimize public exposure of AI endpoints",
+        "Implement rate limiting on public interfaces"
+      ]
+    },
+    {
+      "tactic_id": "AML.TA0002",
+      "tactic_name": "Initial Access",
+      "technique_id": "AML.T0051",
+      "technique_name": "LLM Prompt Injection",
+      "description": "Adversary crafts input to override LLM system instructions and manipulate behavior.",
+      "mitigations": [
+        "Input validation and sanitization",
+        "System prompt hardening",
+        "Output filtering"
+      ]
+    },
+    {
+      "tactic_id": "AML.TA0002",
+      "tactic_name": "Initial Access",
+      "technique_id": "AML.T0052",
+      "technique_name": "Indirect Prompt Injection",
+      "description": "Adversary plants malicious instructions in data sources consumed by the LLM.",
+      "mitigations": [
+        "Validate and sanitize retrieved content",
+        "Separate instruction and data channels",
+        "Content integrity verification"
+      ]
+    },
+    {
+      "tactic_id": "AML.TA0003",
+      "tactic_name": "Execution",
+      "technique_id": "AML.T0053",
+      "technique_name": "Tool Manipulation",
+      "description": "Adversary manipulates the AI agent into executing tool calls with malicious intent.",
+      "mitigations": [
+        "Require human confirmation for sensitive tool calls",
+        "Implement tool-call allowlists",
+        "Audit all tool invocations"
+      ]
+    },
+    {
+      "tactic_id": "AML.TA0003",
+      "tactic_name": "Execution",
+      "technique_id": "AML.T0054",
+      "technique_name": "Unsafe Action Chain",
+      "description": "Adversary triggers a sequence of tool calls that compound into a harmful outcome.",
+      "mitigations": [
+        "Limit tool chaining depth",
+        "Apply per-action authorization checks",
+        "Monitor multi-step tool sequences"
+      ]
+    },
+    {
+      "tactic_id": "AML.TA0004",
+      "tactic_name": "Persistence",
+      "technique_id": "AML.T0055",
+      "technique_name": "Memory Poisoning",
+      "description": "Adversary injects persistent malicious data into the agent's memory store.",
+      "mitigations": [
+        "Validate data before writing to memory",
+        "Implement memory expiration",
+        "Per-user memory isolation"
+      ]
+    },
+    {
+      "tactic_id": "AML.TA0004",
+      "tactic_name": "Persistence",
+      "technique_id": "AML.T0056",
+      "technique_name": "Persistent Instruction Embedding",
+      "description": "Adversary embeds instructions that persist in memory and alter future behavior.",
+      "mitigations": [
+        "Separate instruction and data storage",
+        "Memory integrity auditing",
+        "Periodic memory review and cleanup"
+      ]
+    },
+    {
+      "tactic_id": "AML.TA0005",
+      "tactic_name": "Privilege Escalation",
+      "technique_id": "AML.T0057",
+      "technique_name": "Tool Privilege Abuse",
+      "description": "Adversary exploits overly permissive tool credentials to escalate access.",
+      "mitigations": [
+        "Enforce least-privilege on tool credentials",
+        "Separate read and write credentials",
+        "Rotate credentials regularly"
+      ]
+    },
+    {
+      "tactic_id": "AML.TA0006",
+      "tactic_name": "Credential Access",
+      "technique_id": "AML.T0058",
+      "technique_name": "Secret Extraction via LLM",
+      "description": "Adversary extracts credentials or API keys through LLM responses or error messages.",
+      "mitigations": [
+        "Never include raw secrets in prompts",
+        "Implement output scanning for credential patterns",
+        "Scrub secrets from logs"
+      ]
+    },
+    {
+      "tactic_id": "AML.TA0007",
+      "tactic_name": "Exfiltration",
+      "technique_id": "AML.T0059",
+      "technique_name": "Knowledge Base Exfiltration",
+      "description": "Adversary systematically extracts sensitive content from retrieval sources.",
+      "mitigations": [
+        "Implement per-user retrieval access controls",
+        "Rate-limit retrieval queries",
+        "Monitor for systematic extraction patterns"
+      ]
+    },
+    {
+      "tactic_id": "AML.TA0007",
+      "tactic_name": "Exfiltration",
+      "technique_id": "AML.T0060",
+      "technique_name": "Cross-Context Data Leakage",
+      "description": "Sensitive data from one retrieval context leaks into another through LLM responses.",
+      "mitigations": [
+        "Isolate retrieval by sensitivity level",
+        "Apply per-source access controls",
+        "Label and track content provenance"
+      ]
+    },
+    {
+      "tactic_id": "AML.TA0008",
+      "tactic_name": "Supply Chain Compromise",
+      "technique_id": "AML.T0061",
+      "technique_name": "Third-Party Provider Compromise",
+      "description": "Adversary compromises an external model or tool provider to affect the AI system.",
+      "mitigations": [
+        "Audit third-party provider security",
+        "Implement provider fallback mechanisms",
+        "Monitor provider status and incidents"
+      ]
+    },
+    {
+      "tactic_id": "AML.TA0008",
+      "tactic_name": "Supply Chain Compromise",
+      "technique_id": "AML.T0062",
+      "technique_name": "Trust Transitivity Exploitation",
+      "description": "Adversary exploits transitive trust relationships between the agent and connected services.",
+      "mitigations": [
+        "Scope credentials per integration",
+        "Implement network segmentation",
+        "Regular trust relationship audits"
+      ]
+    },
+    {
+      "tactic_id": "AML.TA0003",
+      "tactic_name": "Execution",
+      "technique_id": "AML.T0063",
+      "technique_name": "Insecure Output Consumption",
+      "description": "Model output is consumed by downstream systems as trusted input without validation.",
+      "mitigations": [
+        "Validate and sanitize all model outputs before downstream use",
+        "Treat model output as untrusted data",
+        "Implement output schema enforcement"
+      ]
+    },
+    {
+      "tactic_id": "AML.TA0005",
+      "tactic_name": "Privilege Escalation",
+      "technique_id": "AML.T0064",
+      "technique_name": "Excessive Agent Authority",
+      "description": "Agent design grants overly broad capabilities without proportionate constraints.",
+      "mitigations": [
+        "Apply least-privilege to agent capabilities",
+        "Limit write-capable tool count",
+        "Enforce human-in-the-loop for sensitive actions"
+      ]
+    },
+    {
+      "tactic_id": "AML.TA0007",
+      "tactic_name": "Exfiltration",
+      "technique_id": "AML.T0065",
+      "technique_name": "Cross-Tenant Context Leakage",
+      "description": "Shared memory or retrieval allows one user or tenant to access another's data.",
+      "mitigations": [
+        "Enforce per-user or per-tenant isolation",
+        "Namespace all shared resources",
+        "Audit cross-context access patterns"
+      ]
+    },
+    {
+      "tactic_id": "AML.TA0006",
+      "tactic_name": "Credential Access",
+      "technique_id": "AML.T0066",
+      "technique_name": "Sensitive Data Logging Exposure",
+      "description": "Prompts, responses, secrets, or retrieved content leak through logging or telemetry.",
+      "mitigations": [
+        "Scrub sensitive data from all log pipelines",
+        "Implement structured logging with redaction",
+        "Audit telemetry data for credential or PII exposure"
+      ]
+    },
+    {
+      "tactic_id": "AML.TA0009",
+      "tactic_name": "Impact",
+      "technique_id": "AML.T0067",
+      "technique_name": "Model Denial-of-Service",
+      "description": "Adversary abuses public-facing AI system to cause excessive cost or resource exhaustion.",
+      "mitigations": [
+        "Implement rate limiting per user and session",
+        "Set cost ceilings and usage budgets",
+        "Monitor for recursive or abusive query patterns"
+      ]
+    },
+    {
+      "tactic_id": "AML.TA0003",
+      "tactic_name": "Execution",
+      "technique_id": "AML.T0068",
+      "technique_name": "Ungated Sensitive Action",
+      "description": "Agent performs sensitive or destructive actions without human approval or policy check.",
+      "mitigations": [
+        "Require explicit approval for write or privileged actions",
+        "Implement policy-as-code enforcement",
+        "Add confirmation gates before external modifications"
+      ]
+    }
+  ],
+  "category_mappings": {
+    "prompt_injection": ["AML.T0051", "AML.T0052", "AML.T0054"],
+    "tool_abuse": ["AML.T0053", "AML.T0054", "AML.T0057"],
+    "retrieval_exfiltration": ["AML.T0059", "AML.T0060", "AML.T0052"],
+    "secret_exposure": ["AML.T0058"],
+    "memory_abuse": ["AML.T0055", "AML.T0056"],
+    "supply_chain": ["AML.T0061", "AML.T0062", "AML.T0000"],
+    "insecure_output": ["AML.T0063", "AML.T0054"],
+    "excessive_agency": ["AML.T0064", "AML.T0057"],
+    "cross_context": ["AML.T0065", "AML.T0060"],
+    "logging_leakage": ["AML.T0066", "AML.T0058"],
+    "dos_cost_abuse": ["AML.T0067", "AML.T0000"],
+    "missing_approval": ["AML.T0068", "AML.T0053"]
+  }
+}

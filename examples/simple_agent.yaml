@@ -1,0 +1,62 @@
+system:
+  name: customer-support-agent
+  type: llm-agent
+  description: AI support assistant with retrieval and tool access
+
+exposure:
+  internet_facing: true
+  users:
+    - external_customers
+    - internal_support_team
+
+model:
+  provider: openai
+  model_family: gpt-4-class
+  hosted: external_api
+
+interfaces:
+  - type: web_chat
+    auth: session_cookie
+
+tools:
+  - name: jira
+    permissions:
+      - read_tickets
+      - write_comments
+    trust_boundary: external_service
+
+  - name: github
+    permissions:
+      - read_repo_metadata
+    trust_boundary: external_service
+
+retrieval:
+  enabled: true
+  sources:
+    - name: internal_kb
+      sensitivity: confidential
+
+memory:
+  enabled: true
+  stores:
+    - type: conversation_memory
+      sensitivity: internal
+
+secrets:
+  - name: openai_api_key
+    scope: backend
+  - name: github_token
+    scope: tool_connector
+
+data:
+  sensitivity:
+    - internal
+    - confidential
+    - pii
+
+trust_boundaries:
+  - browser
+  - backend
+  - external_llm_provider
+  - external_tools
+  - internal_knowledge_base

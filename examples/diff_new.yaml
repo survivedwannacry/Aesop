@@ -1,0 +1,70 @@
+system:
+  name: support-agent
+  type: llm-agent
+  description: Enhanced support agent with full tool access (v2)
+
+exposure:
+  internet_facing: true
+  users:
+    - internal_support_team
+    - external_customers
+
+model:
+  provider: openai
+  model_family: gpt-4-class
+  hosted: external_api
+
+interfaces:
+  - type: internal_chat
+    auth: sso
+  - type: web_widget
+    auth: session_cookie
+
+tools:
+  - name: jira
+    permissions:
+      - read_tickets
+      - write_comments
+      - create_tickets
+    trust_boundary: external_service
+
+  - name: slack
+    permissions:
+      - send_message
+      - read_channels
+    trust_boundary: external_service
+
+retrieval:
+  enabled: true
+  sources:
+    - name: help_center
+      sensitivity: internal
+    - name: customer_data
+      sensitivity: pii
+
+memory:
+  enabled: true
+  stores:
+    - type: conversation_memory
+      sensitivity: internal
+
+secrets:
+  - name: openai_api_key
+    scope: backend
+  - name: jira_token
+    scope: tool_connector
+  - name: slack_token
+    scope: tool_connector
+
+data:
+  sensitivity:
+    - internal
+    - confidential
+    - pii
+
+trust_boundaries:
+  - browser
+  - backend
+  - external_llm_provider
+  - external_tools
+  - customer_data_store

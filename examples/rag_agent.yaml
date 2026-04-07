@@ -1,0 +1,48 @@
+system:
+  name: research-rag-assistant
+  type: rag-system
+  description: Internal research assistant with access to confidential document corpus
+
+exposure:
+  internet_facing: false
+  users:
+    - internal_researchers
+    - data_science_team
+
+model:
+  provider: anthropic
+  model_family: claude-3-class
+  hosted: external_api
+
+interfaces:
+  - type: internal_web_app
+    auth: sso
+
+retrieval:
+  enabled: true
+  sources:
+    - name: research_papers
+      sensitivity: internal
+    - name: patent_filings
+      sensitivity: confidential
+    - name: employee_records
+      sensitivity: pii
+
+memory:
+  enabled: false
+
+secrets:
+  - name: anthropic_api_key
+    scope: backend
+
+data:
+  sensitivity:
+    - internal
+    - confidential
+    - pii
+
+trust_boundaries:
+  - corporate_network
+  - backend
+  - external_llm_provider
+  - document_store
